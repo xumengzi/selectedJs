@@ -2,8 +2,8 @@ var selected = (function(sec) {
 	var sec = {
 		events: function() {
 			$(window).scroll(function() {
-				$("body").find(".search").remove()
-			})
+				$("body").find(".search").remove();
+			});
 		},
 		mouseup: function() {
 			var that = this;
@@ -17,8 +17,7 @@ var selected = (function(sec) {
 					text = window.getSelection();
 					if (text.toString().length > 0) {
 						$("body").find(".search").remove();
-						var searchEngine = that.para.searchEngine,
-							list = "";
+						var searchEngine = that.para.searchEngine,list = "";
 						searchEngine = (searchEngine.length ? searchEngine : ["baidu"]);
 						for (var i in searchEngine) {
 							var s = searchEngine[i];
@@ -30,11 +29,11 @@ var selected = (function(sec) {
 						$("body .search .singleSearch").hover(function() {
 							$(this).css({
 								background: "#f5f5f5",
-							})
+							});
 						}, function() {
 							$(this).css({
 								background: "#fff"
-							})
+							});
 						});
 						$("body .search .singleSearch").css({
 							margin: "4px",
@@ -51,9 +50,9 @@ var selected = (function(sec) {
 							fontSize: "13px",
 							boxShadow: "1px 1px 2px 2px #ccc",
 							zIndex: 999
-						})
+						});
 					} else {
-						!tar.parents(".search").hasClass("search") && $("body").find(".search").remove()
+						!tar.parents(".search").hasClass("search") && $("body").find(".search").remove();
 					}
 				}
 			})
@@ -68,7 +67,7 @@ var selected = (function(sec) {
 				engine = that.searchArr(engine);
 				engine = engine + encodeURI(txt);
 				window.open(engine);
-				$("body").find(".search").remove()
+				$("body").find(".search").remove();
 			})
 		},
 		searchArr: function(e) {
@@ -84,20 +83,20 @@ var selected = (function(sec) {
 			for (var i in url) {
 				if (i == e) {
 					e = url[i]
-				}
-			}
-			return e
+				};
+			};
+			return e;
 		},
 		init: function() {
 			this.events();
 			this.mouseup();
-			this.jumpUrl()
+			this.jumpUrl();
 		},
 		set: function(para) {
 			var that = this;
 			that.para = para;
-			that.init()
+			that.init();
 		}
 	};
-	return sec
+	return sec;
 })();
