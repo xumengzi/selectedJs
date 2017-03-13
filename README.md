@@ -10,4 +10,4 @@ selected.set({
 });
 ```
 		 
-	
+![效果如图](https://github.com/JarvenIV/selectedJs/blob/master/filehelper_1489409478694_70.png)
