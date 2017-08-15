@@ -1,7 +1,10 @@
-/*
-	selected.js v1.0.1 created by xumeng 2017/07/06
-	支持IE8及以上高级浏览器
+﻿/*
+	selected.js v1.1.1 created by xumeng 2017/07/06
+	支持IE9及以上高级浏览器
 	http://xumengzi.top/
+	
+	1.2017/08/10
+	修复IE下跳转bug
 
 	已知bug
 	1.Firefox(54)下的window.getSelection()返回值里没有type属性，而chrome(58)，edge等浏览器有这个属性值，比如有Range,None,Caret等。
@@ -10,7 +13,7 @@
 
 ;(function(w){
 	function selected(){
-		this.version = '1.0.1';
+		this.version = '1.1.1';
 	};
 	selected.prototype.args = {
 		searchEngine:['bing'],
@@ -18,7 +21,7 @@
 		background: '#fff',
 		zIndex: 9999,
 	};
-	selected.prototype.version = '1.0.1';
+	selected.prototype.version = '1.1.1';
 	selected.prototype.event = function(){
 		var that = this;
 		var args = that.args;
@@ -37,8 +40,17 @@
 			});
 			tar[i].addEventListener("click",function(e){
 				var o = e.target.attributes, 
-					engine = o[1].value, 
-					txt = o[2].value;
+					engine = '', 
+					txt = '';
+				o = [].slice.call(o);
+				for(var i in o){
+					if(o[i].name == '_engine'){
+						engine = o[i].value;
+					};
+					if(o[i].name == 'title'){
+						txt = o[i].value;
+					};
+				};
                 var urlArr = that.para;
                 engine = that.searchArr(engine);
                 engine = engine + encodeURI(txt);
@@ -56,6 +68,7 @@
 		};
 	};
 	selected.prototype.searchArr = function(e){
+		e = e || event;
 		e = e.toLowerCase();
         var url = {
             google: "http://www.google.com/search?hl=zh-CN&q=",
@@ -67,12 +80,18 @@
         for (var i in url) {
             if (i == e) {
                 e = url[i];
+
             };
         };
+        
         return e;
 	};
 	selected.prototype.set = function(args){
-		this.args = Object.assign({},this.args,args);
+		if (Object.assign) {
+			this.args = Object.assign({},this.args,args);
+		} else{
+			this.args = JSON.parse(JSON.stringify(args));
+		}
 		this.mouseUp();
 	};
 	selected.prototype.mouseUp = function(){
@@ -118,9 +137,9 @@
 		});
 	};
 	selected.prototype.reSet = function(){
-		var ele = document.querySelector(".selected_div");
+		var ele = document.getElementsByClassName("selected_div")[0];
     	//remove already exsits
-    	ele && ele.remove();
+    	ele && document.body.removeChild(ele);
 	};
 	selected.prototype.init = function(){
 		this.event();
